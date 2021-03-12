@@ -45,7 +45,7 @@ render() {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            Crespi can code!!! wooooo
           </p>
           <a
             className="App-link"
