@@ -1,3 +1,5 @@
+print("got to python")
+
 from binance.client import Client
 import json, pymongo, sys
 import config
