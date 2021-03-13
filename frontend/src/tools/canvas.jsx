@@ -35,7 +35,7 @@ const Canvas = props => {
       ctx.strokeStyle = '#e8b923'
       ctx.stroke();
     } catch (error) {
-      console.error(error);
+      //console.error(error);
     }
     
   }
