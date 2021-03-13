@@ -12,9 +12,10 @@ mongoc = pymongo.MongoClient("mongodb+srv://crespi:Simple1234@sctdb.v1k99.mongod
 client = Client(api_key=tconfig.API_KEY, api_secret=tconfig.API_SECRET, tld="us")
 client.API_URL = 'https://testnet.binance.vision/api'
 
+"""
 o = client.order_market_sell(
     symbol='BTCBUSD',
-    quantity=1)
+    quantity=1)"""
 #o = client.get_all_tickers()
 #a = client.get_account()
 #pp.pprint(o)
@@ -81,10 +82,10 @@ def on_message(ws, message):
           variables.inTrans = True
           print("BOUGHT")
           log.write( "\n"+"BOUGHT")
-          order = client.order_market_buy(
+          """order = client.order_market_buy(
             symbol='BTCBUSD',
             quantity=1)
-          variables.trans['buy']['time'] = order['transactTime']
+          variables.trans['buy']['time'] = order['transactTime']"""
 
 
     if (bool(variables.candles[0]) and ((variables.candles[0]['cPrice']) < (variables.candles[1]['cPrice'])) and ((variables.candles[1]['cPrice'] > (variables.candles[2]['cPrice'])))):
@@ -120,10 +121,10 @@ def on_message(ws, message):
         variables.inTrans = False
         print("SOLD")
         log.write( "\n"+"SOLD")
-        order = client.order_market_sell(
+        """order = client.order_market_sell(
           symbol='BTCBUSD',
           quantity=1)
-        variables.trans['sell']['time'] = order['transactTime']
+        variables.trans['sell']['time'] = order['transactTime']"""
 
     variables.candles[0] = variables.candles[1]
     variables.candles[1] = variables.candles[2]
