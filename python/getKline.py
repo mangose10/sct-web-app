@@ -4,10 +4,16 @@ from binance.client import Client
 import json, pymongo, sys
 import config
 
+
+print("imports good")
+
 client = Client(api_key=config.API_KEY, api_secret=config.API_SECRET, tld="us")
 
+print("client good")
 #print("here" + str(sys.argv))
 k = str(sys.argv[1])
+
+print("args good")
 
 intervalDict = {
   '1m' : {
@@ -27,9 +33,9 @@ intervalDict = {
     'startT' : "120 hours ago UTC"
   }
 }
-
+print("dict good")
 candles = client.get_historical_klines(symbol='BTCUSD', interval=intervalDict[k]['interval'], start_str=intervalDict[k]['startT'])
-
+print("client call good")
 #info = client.get_account()
 #print(info)
 #  [
@@ -80,7 +86,7 @@ def candleToJSON(data):
     'min':mins,
     'max':maxs
   }
-
+  print("func good")
   return obj
 
 canObj = candleToJSON(candles)
