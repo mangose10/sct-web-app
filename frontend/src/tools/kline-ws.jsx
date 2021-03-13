@@ -3,16 +3,13 @@ import Canvas from './canvas'
 //import { connect } from 'react-redux'
 
 class KlineWs extends Component {
-  constructor(props) {
-      super(props);
-
-      this.state = {
-          ws: null,
-          curObj: {},
-          histData: {},
-          interval: '1m'
-      };
-  }
+  
+  state = {
+    ws: null,
+    curObj: {},
+    histData: {},
+    interval: '1m'
+};
 
   
   // single websocket instance for the own application and constantly trying to reconnect.
@@ -65,12 +62,16 @@ class KlineWs extends Component {
       };
 
       ws.onmessage = msg => {
-        if (!Object.keys(this.state.histData).length){
+        console.log("got msg")
+        console.log(this.props)
+        if (!Object.keys(this.state.histData).length && (this.props.data.length > 1)){
+            
             this.setState({histData:JSON.parse(this.props.data)})
             this.setState({interval:this.props.interval})
-        }
-        //console.log(this.props)
+        }else if (!Object.keys(this.state.histData).length) {return}
 
+        
+        console.log(this.state)
         let obk = JSON.parse(msg.data).k
         if (!Object.keys(this.state.curObj).length || obk.t > this.state.curObj.T){
             let temp = this.state.histData;
@@ -80,6 +81,8 @@ class KlineWs extends Component {
             temp.max = temp.max < obk.h ? obk.h : temp.max;
         }
         this.setState({curObj:obk})
+        console.log("finished msg");
+        console.log(this.state)
       };
 
       // websocket onerror event listener

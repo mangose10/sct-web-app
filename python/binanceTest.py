@@ -11,9 +11,10 @@ mongoc = pymongo.MongoClient("mongodb+srv://crespi:Simple1234@sctdb.v1k99.mongod
 client = Client(api_key=tconfig.API_KEY, api_secret=tconfig.API_SECRET, tld="us")
 client.API_URL = 'https://testnet.binance.vision/api'
 
-'''o = client.order_market_sell(
+"""
+o = client.order_market_sell(
     symbol='BTCBUSD',
-    quantity=1)'''
+    quantity=1)"""
 #o = client.get_all_tickers()
 #a = client.get_account()
 #pp.pprint(o)

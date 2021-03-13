@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const {spawn} = require('child_process');
-require('dotenv').config();
+fs = require('fs');
 
 router.post('/', function(req, res, next) {
 
@@ -18,7 +18,7 @@ router.post('/', function(req, res, next) {
   python.on('close', (code) => {
     console.log(`child process close all stdio with code ${code}`);
     // send data to browser
-    //console.log(dataToSend)
+    console.log("HERE IS DATA FROM GETKLINE.JS"+dataToSend)
     res.send(dataToSend)
   });
   

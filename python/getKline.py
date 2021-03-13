@@ -1,8 +1,11 @@
 from binance.client import Client
-import json, pymongo, sys
-import config
+import json, sys
 
-client = Client(api_key=config.API_KEY, api_secret=config.API_SECRET, tld="us")
+API_KEY = "8rKrbQ8GpcicyQbGpxF96ihVbsUixobf3SAgprCskLIi5wv0l3RJAUGxA0DvW0U7"
+API_SECRET = "qGzMO4K4CTnz8jRaaCqDEl263topFa1qwpPzMdrzP1m6YeaeukS1oRaMUL5ga6ae"
+
+
+client = Client(api_key=API_KEY, api_secret=API_SECRET, tld="us")
 
 #print("here" + str(sys.argv))
 k = str(sys.argv[1])
@@ -78,7 +81,6 @@ def candleToJSON(data):
     'min':mins,
     'max':maxs
   }
-
   return obj
 
 canObj = candleToJSON(candles)
