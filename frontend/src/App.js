@@ -39,14 +39,8 @@ class App extends Component {
   
 render() {
     return (
-      <div className="App">
-        <p>{this.state.responseToPost}</p>
-        <div padding="50px">
-
-        </div>
-        <div>
-          <Chart/>
-        </div>
+      <div>
+        <Chart/>
       </div>
     );
   }
