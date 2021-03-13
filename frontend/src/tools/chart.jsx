@@ -30,6 +30,7 @@ class Chart extends Component {
     const body = await response.text();
     
     this.setState({ klineData: body });
+    console.log(body)
   };
   
   componentDidUpdate(){
