@@ -71,6 +71,8 @@ class KlineWs extends Component {
             this.setState({interval:this.props.interval})
         }else if (!Object.keys(this.state.histData).length) {return}
 
+        
+        console.log(this.state)
         let obk = JSON.parse(msg.data).k
         if (!Object.keys(this.state.curObj).length || obk.t > this.state.curObj.T){
             let temp = this.state.histData;
