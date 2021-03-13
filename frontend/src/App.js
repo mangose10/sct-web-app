@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-
-import logo from './logo.svg';
-
-import './App.css';
+import KlineWs from './tools/kline-ws'
+import Chart from './tools/chart'
 
 class App extends Component {
   state = {
@@ -42,33 +40,13 @@ class App extends Component {
 render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Crespi can code!!! wooooo
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-        <p>{this.state.response}</p>
-        <form onSubmit={this.handleSubmit}>
-          <p>
-            <strong>Post to Server:</strong>
-          </p>
-          <input
-            type="text"
-            value={this.state.post}
-            onChange={e => this.setState({ post: e.target.value })}
-          />
-          <button type="submit">Submit</button>
-        </form>
         <p>{this.state.responseToPost}</p>
+        <div padding="50px">
+
+        </div>
+        <div>
+          <Chart/>
+        </div>
       </div>
     );
   }
