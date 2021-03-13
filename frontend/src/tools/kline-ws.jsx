@@ -63,7 +63,7 @@ class KlineWs extends Component {
 
       ws.onmessage = msg => {
         console.log("got msg")
-        console.log(this.props.data)
+        console.log(this.props)
         if (!Object.keys(this.state.histData).length && (this.props.data.length > 1)){
             
             this.setState({histData:JSON.parse(this.props.data)})
