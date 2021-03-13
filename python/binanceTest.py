@@ -6,10 +6,20 @@ from binance.client import Client
 import pymongo
 
 SOCKET = "wss://stream.binance.com:9443/ws/btcusdt@kline_1m"
+pp = pprint.PrettyPrinter(indent=2)
 
-mongoc = pymongo.MongoClient(tconfig.MONGO_URL)
+mongoc = pymongo.MongoClient("mongodb+srv://crespi:Simple1234@sctdb.v1k99.mongodb.net/test")
 client = Client(api_key=tconfig.API_KEY, api_secret=tconfig.API_SECRET, tld="us")
 client.API_URL = 'https://testnet.binance.vision/api'
+
+o = client.order_market_sell(
+    symbol='BTCBUSD',
+    quantity=1)
+#o = client.get_all_tickers()
+#a = client.get_account()
+#pp.pprint(o)
+#pp.pprint(a)
+
 
 def fillCandle(message):
   obj = {
@@ -24,28 +34,31 @@ def fillCandle(message):
   return obj
 
 def on_open(ws):
-    print('opened connection')
+  log = open("pprTrd.txt", "a")
+  log.write( "\n"+'opened connection')
+  print('opened connection')
+  log.close()
 
 def on_close(ws):
-    print('closed connection')
+  log = open("pprTrd.txt", "a")
+  print('closed connection')
+  log.write( "\n"+'closed connection')
+  log.close()
 
 def on_message(ws, message):
   message = json.loads(message)
-
-  #print(message)
+  
+  log = open("pprTrd.txt", "a")
 
   if not bool(variables.candles[2]):
     variables.candles[2] = fillCandle(message)
     print(variables.candles[2])
   elif variables.candles[2]['cTime'] < message['k']['t']:
-    variables.candles[0] = variables.candles[1]
-    variables.candles[1] = variables.candles[2]
-    variables.candles[2] = fillCandle(message)
-    print(variables.candles[0]['cPrice'])
-
+    
     if (bool(variables.candles[0]) and ((variables.candles[0]['cPrice']) > (variables.candles[1]['cPrice'])) and ((variables.candles[1]['cPrice'] < (variables.candles[2]['cPrice'])))):
       #min['min'+str(i)] = candles[str(i)]['cPrice']
       print("found min")
+      log.write( "\n"+"found min")
       if variables.min2Time <= 0:
         variables.min2 = float(variables.candles[1]['cPrice'])
         variables.min2Time = int(variables.candles[1]['cTime'])
@@ -66,15 +79,18 @@ def on_message(ws, message):
           variables.trans['break'] = variables.curVal * (1+variables.FEE)
           variables.trans['BTCbought'] = variables.curVal/variables.trans['buy']['price']
           variables.inTrans = True
-          order = client.order_market_buy(
-            symbol='BTCUSD',
-            quantity=1)
           print("BOUGHT")
+          log.write( "\n"+"BOUGHT")
+          order = client.order_market_buy(
+            symbol='BTCBUSD',
+            quantity=1)
+          variables.trans['buy']['time'] = order['transactTime']
 
 
     if (bool(variables.candles[0]) and ((variables.candles[0]['cPrice']) < (variables.candles[1]['cPrice'])) and ((variables.candles[1]['cPrice'] > (variables.candles[2]['cPrice'])))):
       #max['max'+str(i)] = candles[str(i)]['cPrice']
       print("found max")
+      log.write( "\n"+"found max")
       variables.max1 = variables.max2
       variables.max1Time = variables.max2Time
       variables.max2 = float(variables.candles[1]['cPrice'])
@@ -98,14 +114,26 @@ def on_message(ws, message):
         tTrans['numTransactions'] += 1
         """
         variables.curVal = (variables.curVal * (1+variables.trans['change']['percent']))
-        mongoc.transactions.insert_one(variables.trans)
+        mongoc.SCT.transactions.insert_one(variables.trans)
         variables.slope = 0
         variables.trans = {}
         variables.inTrans = False
-        order = client.order_market_sell(
-          symbol='BTCUSD',
-          quantity=1)
         print("SOLD")
+        log.write( "\n"+"SOLD")
+        order = client.order_market_sell(
+          symbol='BTCBUSD',
+          quantity=1)
+        variables.trans['sell']['time'] = order['transactTime']
+
+    variables.candles[0] = variables.candles[1]
+    variables.candles[1] = variables.candles[2]
+    variables.candles[2] = fillCandle(message)
+    print(str(variables.candles[0]['cPrice']) + " - " + str(variables.candles[0]['oTime']))
+    log.write( "\n"+str(variables.candles[0]['cPrice']) + " - " + str(variables.candles[0]['oTime']))
+    
+  else:
+    variables.candles[2] = fillCandle(message)
+  log.close()
 
 ws = websocket.WebSocketApp(SOCKET, on_open=on_open, on_close=on_close, on_message=on_message)
 ws.run_forever()
