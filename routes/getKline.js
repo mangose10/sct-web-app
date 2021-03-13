@@ -18,7 +18,7 @@ router.post('/', function(req, res, next) {
   python.on('close', (code) => {
     console.log(`child process close all stdio with code ${code}`);
     // send data to browser
-    //fs.writeFile('backend.txt', dataToSend)
+    console.log(dataToSend)
     res.send(dataToSend)
   });
   
