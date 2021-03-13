@@ -3,16 +3,13 @@ import Canvas from './canvas'
 //import { connect } from 'react-redux'
 
 class KlineWs extends Component {
-  constructor(props) {
-      super(props);
-
-      this.state = {
-          ws: null,
-          curObj: {},
-          histData: {},
-          interval: '1m'
-      };
-  }
+  
+  state = {
+    ws: null,
+    curObj: {},
+    histData: {},
+    interval: '1m'
+};
 
   
   // single websocket instance for the own application and constantly trying to reconnect.
