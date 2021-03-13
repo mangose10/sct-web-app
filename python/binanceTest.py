@@ -1,9 +1,8 @@
-import websocket, json, pprint, numpy, dns
+import websocket, json, pprint, numpy, dns, pymongo, time
 import tconfig
 import variables
 from binance.enums import *
 from binance.client import Client
-import pymongo
 
 SOCKET = "wss://stream.binance.com:9443/ws/btcusdt@kline_1m"
 pp = pprint.PrettyPrinter(indent=2)
@@ -12,9 +11,9 @@ mongoc = pymongo.MongoClient("mongodb+srv://crespi:Simple1234@sctdb.v1k99.mongod
 client = Client(api_key=tconfig.API_KEY, api_secret=tconfig.API_SECRET, tld="us")
 client.API_URL = 'https://testnet.binance.vision/api'
 
-o = client.order_market_sell(
+'''o = client.order_market_sell(
     symbol='BTCBUSD',
-    quantity=1)
+    quantity=1)'''
 #o = client.get_all_tickers()
 #a = client.get_account()
 #pp.pprint(o)
@@ -81,10 +80,11 @@ def on_message(ws, message):
           variables.inTrans = True
           print("BOUGHT")
           log.write( "\n"+"BOUGHT")
-          order = client.order_market_buy(
+          '''order = client.order_market_buy(
             symbol='BTCBUSD',
-            quantity=1)
-          variables.trans['buy']['time'] = order['transactTime']
+            quantity=1)'''
+          variables.trans['buy']['time'] = time.time()
+          mongoc['SCT']['transactions'].insert_one(variables.trans)
 
 
     if (bool(variables.candles[0]) and ((variables.candles[0]['cPrice']) < (variables.candles[1]['cPrice'])) and ((variables.candles[1]['cPrice'] > (variables.candles[2]['cPrice'])))):
@@ -114,16 +114,19 @@ def on_message(ws, message):
         tTrans['numTransactions'] += 1
         """
         variables.curVal = (variables.curVal * (1+variables.trans['change']['percent']))
-        mongoc.SCT.transactions.insert_one(variables.trans)
+        
+        print("SOLD")
+        log.write( "\n"+"SOLD")
+        '''
+        order = client.order_market_sell(
+          symbol='BTCBUSD',
+          quantity=1)'''
+        variables.trans['sell']['time'] = time.time()
+        latest = mongoc.SCT.transactions.find_one({}, sort=[('_id', pymongo.DESCENDING)])
+        mongoc.SCT.transactions.replace_one(latest, {variables.trans})
         variables.slope = 0
         variables.trans = {}
         variables.inTrans = False
-        print("SOLD")
-        log.write( "\n"+"SOLD")
-        order = client.order_market_sell(
-          symbol='BTCBUSD',
-          quantity=1)
-        variables.trans['sell']['time'] = order['transactTime']
 
     variables.candles[0] = variables.candles[1]
     variables.candles[1] = variables.candles[2]
