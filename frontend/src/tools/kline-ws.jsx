@@ -80,6 +80,8 @@ class KlineWs extends Component {
             temp.max = temp.max < obk.h ? obk.h : temp.max;
         }
         this.setState({curObj:obk})
+        console.log("finished msg");
+        console.log(this.state)
       };
 
       // websocket onerror event listener
