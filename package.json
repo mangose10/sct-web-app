@@ -2,8 +2,9 @@
   "name": "example-create-react-app-express",
   "version": "1.0.0",
   "scripts": {
+    "python-dep": "pip install -r requirements.txt",
     "start": "node server.js",
-    "heroku-postbuild": "cd frontend && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "heroku-postbuild": "yarn python-dep && cd frontend && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "frontend": "cd frontend && yarn start",
     "build-front": "cd frontend && npm run build",
     "server": "nodemon server.js",
