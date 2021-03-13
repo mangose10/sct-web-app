@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const {spawn} = require('child_process');
+fs = require('fs');
 
 router.post('/', function(req, res, next) {
 
@@ -17,8 +18,7 @@ router.post('/', function(req, res, next) {
   python.on('close', (code) => {
     console.log(`child process close all stdio with code ${code}`);
     // send data to browser
-    fs = require('fs');
-    fs.writeFile('backend.log', dataToSend)
+    //fs.writeFile('backend.txt', dataToSend)
     res.send(dataToSend)
   });
   
