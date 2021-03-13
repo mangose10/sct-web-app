@@ -2,12 +2,13 @@ print("got to python")
 
 from binance.client import Client
 import json, pymongo, sys
-import config
 
+API_KEY = "8rKrbQ8GpcicyQbGpxF96ihVbsUixobf3SAgprCskLIi5wv0l3RJAUGxA0DvW0U7"
+API_SECRET = "qGzMO4K4CTnz8jRaaCqDEl263topFa1qwpPzMdrzP1m6YeaeukS1oRaMUL5ga6ae"
 
 print("imports good")
 
-client = Client(api_key=config.API_KEY, api_secret=config.API_SECRET, tld="us")
+client = Client(api_key=API_KEY, api_secret=API_SECRET, tld="us")
 
 print("client good")
 #print("here" + str(sys.argv))
