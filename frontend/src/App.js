@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import KlineWs from './tools/kline-ws'
-import Chart from './tools/chart'
+import Chart from './tools/chart';
 
 class App extends Component {
   state = {
@@ -41,9 +40,6 @@ render() {
     return (
       <div className="App">
         <p>{this.state.responseToPost}</p>
-        <div padding="50px">
-
-        </div>
         <div>
           <Chart/>
         </div>

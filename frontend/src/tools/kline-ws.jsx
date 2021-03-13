@@ -21,7 +21,7 @@ class KlineWs extends Component {
     this.connect();    
   }
   componentDidUpdate(){
-    if (this.state.interval != this.props.interval){
+    if (this.state.interval !== this.props.interval){
         this.state.ws.close();
         this.setState({interval:this.props.interval})
         this.setState({histData:{}})
