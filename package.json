@@ -5,6 +5,7 @@
     "start": "node server.js",
     "heroku-postbuild": "cd frontend && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "frontend": "cd frontend && yarn start",
+    "build-front": "cd frontend && npm run build",
     "server": "nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn frontend\""
   },
