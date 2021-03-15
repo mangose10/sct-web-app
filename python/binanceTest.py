@@ -124,7 +124,7 @@ def on_message(ws, message):
           quantity=1)'''
         variables.trans['sell']['time'] = time.time()
         latest = mongoc.SCT.transactions.find_one({}, sort=[('_id', pymongo.DESCENDING)])
-        mongoc.SCT.transactions.replace_one(latest, {variables.trans})
+        mongoc.SCT.transactions.replace_one(latest, variables.trans)
         variables.slope = 0
         variables.trans = {}
         variables.inTrans = False
