@@ -30,8 +30,9 @@ class Chart extends Component {
     const body = await response.text();
     
     this.setState({ klineData: body });
-    console.log(body)
   };
+
+  
   
   componentDidUpdate(){
     //this.getDataPoints();
@@ -53,7 +54,7 @@ class Chart extends Component {
           <option value="30m">30m</option>
           <option value="1h">1h</option>
         </select>
-        <KlineWs data={this.state.klineData} interval={this.state.post}/>
+        <KlineWs data={this.state.klineData} interval={this.state.post} onChange={this.props.onChange}/>
       </div>
   )};
 }

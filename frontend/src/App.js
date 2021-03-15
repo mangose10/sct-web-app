@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import KlineWs from './tools/kline-ws'
+import BalanceWS from './tools/balance'
 import Chart from './tools/chart'
 
 class App extends Component {
@@ -7,15 +7,19 @@ class App extends Component {
     response: '',
     post: '',
     responseToPost: '',
+    chartVals: {}
   };
   
-
-
   
-render() {
+  
+  render() {
     return (
       <div>
-        <Chart/>
+        <Chart onChange={this.eventhandler}/>
+        <div>
+          <p>Account Balance: </p>
+        </div>
+        <BalanceWS/>
       </div>
     );
   }

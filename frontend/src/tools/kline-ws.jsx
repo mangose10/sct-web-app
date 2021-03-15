@@ -8,9 +8,17 @@ class KlineWs extends Component {
     ws: null,
     curObj: {},
     histData: {},
+    margin: {},
     interval: '1m'
-};
+  };
 
+  getMLines = async () => {
+    const response = await fetch('/api/get-margin-lines')
+    const body = await response.text();
+    let temp = body.replaceAll("'", "\"").replace("\r", "").replace("\n", "");
+    //console.log(temp)
+    this.setState({margin: JSON.parse(temp)});
+  }
   
   // single websocket instance for the own application and constantly trying to reconnect.
 
@@ -18,7 +26,7 @@ class KlineWs extends Component {
     this.connect();    
   }
   componentDidUpdate(){
-    if (this.state.interval != this.props.interval){
+    if (this.state.interval !== this.props.interval){
         this.state.ws.close();
         this.setState({interval:this.props.interval})
         this.setState({histData:{}})
@@ -62,16 +70,15 @@ class KlineWs extends Component {
       };
 
       ws.onmessage = msg => {
-        console.log("got msg")
-        console.log(this.props)
+        
+        this.getMLines();
+
         if (!Object.keys(this.state.histData).length && (this.props.data.length > 1)){
             
             this.setState({histData:JSON.parse(this.props.data)})
             this.setState({interval:this.props.interval})
         }else if (!Object.keys(this.state.histData).length) {return}
 
-        
-        console.log(this.state)
         let obk = JSON.parse(msg.data).k
         if (!Object.keys(this.state.curObj).length || obk.t > this.state.curObj.T){
             let temp = this.state.histData;
@@ -81,8 +88,6 @@ class KlineWs extends Component {
             temp.max = temp.max < obk.h ? obk.h : temp.max;
         }
         this.setState({curObj:obk})
-        console.log("finished msg");
-        console.log(this.state)
       };
 
       // websocket onerror event listener
@@ -108,7 +113,7 @@ class KlineWs extends Component {
   render() {
       return (
         <div margin="25px">
-            <Canvas width="500" height="200" data={this.state.histData} cur={this.state.curObj}/>
+            <Canvas width="500" height="200" data={this.state.histData} cur={this.state.curObj} margin={this.state.margin} onChange={this.props.onChange}/>
         </div>
       );
   }

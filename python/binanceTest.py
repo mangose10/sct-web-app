@@ -15,11 +15,6 @@ client.API_URL = 'https://testnet.binance.vision/api'
 o = client.order_market_sell(
     symbol='BTCBUSD',
     quantity=1)"""
-#o = client.get_all_tickers()
-#a = client.get_account()
-#pp.pprint(o)
-#pp.pprint(a)
-
 
 def fillCandle(message):
   obj = {
@@ -108,12 +103,6 @@ def on_message(ws, message):
         variables.trans['change'] = {'percent':(variables.trans['sell']['price']/(variables.trans['buy']['price'])*(1+variables.FEE))-1, 'timeSpan':timePassedEnd, 'slope': variables.slope}
         variables.trans['change']['sellType'] = "break"
 
-        """
-        tTrans[str(tTrans['numTransactions'])] = trans
-        tTrans['vol'] += tTrans['overallChange']
-        tTrans['longestTrade'] = tTrans['longestTrade'] if tTrans['longestTrade'] > trans['change']['timeSpan'] else trans['change']['timeSpan']
-        tTrans['numTransactions'] += 1
-        """
         variables.curVal = (variables.curVal * (1+variables.trans['change']['percent']))
         
         print("SOLD")
