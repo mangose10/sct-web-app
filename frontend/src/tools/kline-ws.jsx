@@ -113,7 +113,7 @@ class KlineWs extends Component {
   render() {
       return (
         <div margin="25px">
-            <Canvas width="500" height="200" data={this.state.histData} cur={this.state.curObj} margin={this.state.margin} onChange={this.props.onChange}/>
+            <Canvas width="900" height="500" data={this.state.histData} cur={this.state.curObj} margin={this.state.margin} onChange={this.props.onChange} onmousemove=""/>
         </div>
       );
   }
