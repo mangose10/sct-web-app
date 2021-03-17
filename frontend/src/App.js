@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import BalanceWS from './tools/balance'
 import Chart from './tools/chart'
+import ThreeDotsWave from './tools/loading'
 
 class App extends Component {
   state = {
@@ -15,11 +16,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Chart onChange={this.eventhandler}/>
-        <div>
-          <p>Account Balance: </p>
-        </div>
-        <BalanceWS/>
+        <Chart/>
+        {/*<ThreeDotsWave/>*/}
       </div>
     );
   }

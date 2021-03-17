@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Canvas from './canvas'
+import './../css/chart.css'
 //import { connect } from 'react-redux'
 
 class KlineWs extends Component {
@@ -73,19 +74,38 @@ class KlineWs extends Component {
         
         this.getMLines();
 
+        //console.log(this.props.data)
         if (!Object.keys(this.state.histData).length && (this.props.data.length > 1)){
             
             this.setState({histData:JSON.parse(this.props.data)})
             this.setState({interval:this.props.interval})
+            //console.log(this.state.histData)
         }else if (!Object.keys(this.state.histData).length) {return}
 
         let obk = JSON.parse(msg.data).k
-        if (!Object.keys(this.state.curObj).length || obk.t > this.state.curObj.T){
+        obk = {
+          'T':obk['T'],
+          'c':obk['c'].slice(0, -4),
+          'h':obk['h'].slice(0, -4),
+          'l':obk['l'].slice(0, -4),
+          'o':obk['o'].slice(0, -4),
+          't':obk['t']
+        }
+
+        //console.log(this.state.curObj)
+        if (!Object.keys(this.state.curObj).length){
+          this.setState({curObj:obk});
+          console.log("was empty")
+          return;
+        }
+
+        if (Object.keys(obk).length && obk.t > this.state.curObj.T){
             let temp = this.state.histData;
-            //console.log(temp);
             temp.klinedata.shift();
             temp.klinedata.push(this.state.curObj)
             temp.max = temp.max < obk.h ? obk.h : temp.max;
+            temp.min = temp.min > obk.l ? obk.l : temp.min;
+            this.histData = temp
         }
         this.setState({curObj:obk})
       };
@@ -112,8 +132,8 @@ class KlineWs extends Component {
 
   render() {
       return (
-        <div margin="25px">
-            <Canvas width="900" height="500" data={this.state.histData} cur={this.state.curObj} margin={this.state.margin} onChange={this.props.onChange} onmousemove=""/>
+        <div margin="25px" class="chart">
+            <Canvas width="900" height="500" data={this.state.histData} cur={this.state.curObj} margin={this.state.margin}/>
         </div>
       );
   }

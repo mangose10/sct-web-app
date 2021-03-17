@@ -1,0 +1,9 @@
+.loaderhide{
+  display: none
+}
+.loader{
+  display: block
+}
+.loaderContainer{
+  margin: 250px auto;
+}

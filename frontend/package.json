@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "framer-motion": "^3.10.5",
     "ltt-binance-api-react-native": "^0.10.30",
     "mongoose": "^5.12.0",
     "mouse-position": "^2.1.0",

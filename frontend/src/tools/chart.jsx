@@ -54,7 +54,7 @@ class Chart extends Component {
           <option value="30m">30m</option>
           <option value="1h">1h</option>
         </select>
-        <KlineWs data={this.state.klineData} interval={this.state.post} onChange={this.props.onChange}/>
+        <KlineWs data={this.state.klineData} interval={this.state.post}/>
       </div>
   )};
 }
