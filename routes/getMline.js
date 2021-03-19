@@ -5,6 +5,8 @@ const {spawn} = require('child_process');
 router.get('/', function(req, res, next) {
   var dataToSend;
 
+  //console.log("in mline")
+
   const python = spawn('python',  ['./python/getMline.py']);
   python.stdout.on('data', function (data) {
     //console.log('Pipe data from python script ...');

@@ -12,6 +12,8 @@ var getKline = require('./routes/getKline');
 app.use('/api/get-kline-data', getKline);
 var getMline = require('./routes/getMline');
 app.use('/api/get-margin-lines', getMline);
+var getMline = require('./routes/getTransData');
+app.use('/api/get-trans-by-date', getMline);
 
 
 if(true){

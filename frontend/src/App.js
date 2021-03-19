@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Chart from './tools/chart'
-import ThreeDotsWave from './tools/loading'
+import CalendarWrapper from './tools/calendar'
 
 class App extends Component {
   state = {
@@ -16,6 +16,7 @@ class App extends Component {
     return (
       <div>
         <Chart/>
+        <CalendarWrapper/>
       </div>
     );
   }

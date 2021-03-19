@@ -1,6 +1,6 @@
 import pymongo, dns
 
-mongoc = pymongo.MongoClient("mongodb+srv://crespi:Simple1234@sctdb.v1k99.mongodb.net/test")
+mongoc = pymongo.MongoClient("mongodb://leo:Melmmldm1%21@10.0.0.207:27017/?authSource=admin&readPreference=secondary&ssl=false")
 latest = mongoc.SCT.transactions.find_one({}, sort=[('_id', pymongo.DESCENDING)])
 
 

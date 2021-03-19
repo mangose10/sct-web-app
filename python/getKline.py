@@ -85,6 +85,6 @@ def candleToJSON(data):
 
 canObj = candleToJSON(candles)
 print(json.dumps(canObj))
-#mongoc = pymongo.MongoClient("mongodb+srv://crespi:Simple1234@sctdb.v1k99.mongodb.net/test")
+#mongoc = pymongo.MongoClient("mongodb://leo:Melmmldm1%21@localhost:27017/?authSource=admin&readPreference=secondary&appname=MongoDB%20Compass&ssl=false")
 #mongoc.SCT.candles.insert_one({'h1':canObj})
 

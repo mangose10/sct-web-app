@@ -3,6 +3,7 @@ import useMousePosition from './mousePosition'
 import ThreeDotsWave from './loading'
 import './../css/loader.css'
 import useWindowDimensions from './windowDimensions'
+import $ from 'jquery'
 
 const Canvas = props => {
 
@@ -25,7 +26,7 @@ const Canvas = props => {
     let xMagnet = Math.floor((x-canvasRef.current.offsetLeft+scrollOffset)/lineWidth)*lineWidth + center
     let yRangeStart = canvasRef.current.offsetTop
 
-    if (y > yRangeStart && y < (yRangeStart + canvasRef.current.height)){
+    if (y > yRangeStart && y < (yRangeStart + canvasRef.current.height - document.scrollingElement.scrollTop)){
       ctx.moveTo(xMagnet, 0)
       ctx.lineTo(xMagnet, canvasRef.current.height)
       ctx.stroke()
@@ -149,15 +150,15 @@ const Canvas = props => {
   }
 
   useEffect(() => {
-    var loader = document.querySelectorAll('.loader');
+    var loader = $('.loader');
     var hideLoader = () => {}
+    var showLoader = () => {}
     if (loader){
       hideLoader = () => {
-        for (var i = 0; i < loader.length;i++){
-          loader[i].classList.add('loaderhide');
-          loader[i].classList.remove('loader');
-          loader[i].classList.remove('loaderContainer');
-        }
+        loader.hide();
+      }
+      showLoader = () => {
+        loader.show();
       }
     }
     const canvas = canvasRef.current

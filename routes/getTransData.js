@@ -7,9 +7,9 @@ router.post('/', function(req, res, next) {
 
   //console.log(req.body.post)
   var dataToSend;
-  //console.log("in Kline")
+  console.log('in back')
   // spawn new child process to call the python script
-  const python = spawn('python',  ['./python/getKline.py', req.body.post ]);
+  const python = spawn('python',  ['./python/getTransByDate.py', req.body.post ]);
   // collect data from script
   python.stdout.on('data', function (data) {
     console.log('Pipe data from python script ...');
@@ -19,10 +19,13 @@ router.post('/', function(req, res, next) {
   python.on('close', (code) => {
     console.log(`child process close all stdio with code ${code}`);
     // send data to browser
-    //console.log(JSON.parse(dataToSend)['klinedata'].slice(100))
+    //console.log(typeof(dataToSend))
+    if (typeof(dataToSend) === 'string'){
+      dataToSend = dataToSend.replace(/'/g, "\"")
+    }
     res.send(dataToSend)
   });
   
-});
+}); 
 
 module.exports = router;

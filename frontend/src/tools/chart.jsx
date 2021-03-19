@@ -46,6 +46,7 @@ class Chart extends Component {
           value={this.state.post}
           onChange={async e => {
             this.setState({ post: e.target.value });
+            console.log(this.state.post)
             this.getDataPoints();
           }}
         >
