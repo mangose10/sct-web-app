@@ -31,6 +31,7 @@ if(true){
   });
 }
 
+
 const server = require('http').createServer(app);
 const io = socketIO(server);
 
@@ -41,18 +42,18 @@ var balance = 0.0;
 io.on('connection', (socket) => {
   console.log('Client connected');
 
-  var transData = {};
-  const python = spawn('python',  ['./python/getBalance.py']);
-  python.stdout.on('data', function (data) {
-
-    transData = JSON.parse(data.toString().replace(/'/g, "\""));
-  });
+  
 
   const client = new ws('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
 
   client.on('message', msg => {
+    var transData = {}
+    const python = spawn('python',  ['./python/getBalance.py']);
+    python.stdout.on('data', function (data) {
+    transData = JSON.parse(data.toString().replace(/'/g, "\""));
+  });
     let transLen =Object.keys(transData).length
-    //console.log(transLen)
+    
     if (transLen && transLen < 5){
       balance = parseFloat(JSON.parse(msg).k.c)*transData.BTCbought
     }else if (transLen){

@@ -17,7 +17,7 @@ class App extends Component {
     return (
       <div>
         <Chart/>
-        {/*<ThreeDotsWave/>*/}
+        <BalanceWS/>
       </div>
     );
   }

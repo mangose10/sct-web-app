@@ -132,8 +132,8 @@ class KlineWs extends Component {
 
   render() {
       return (
-        <div margin="25px" class="chart">
-            <Canvas width="900" height="500" data={this.state.histData} cur={this.state.curObj} margin={this.state.margin}/>
+        <div class="chartContainer">
+            <Canvas width="900" height="500" data={this.state.histData} cur={this.state.curObj} margin={this.state.margin} class="chart"/>
         </div>
       );
   }

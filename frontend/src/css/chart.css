@@ -1,3 +1,16 @@
+.chartContainer{
+  background: #fff;
+    border: 1px solid #aaa;
+    border-radius: 15px;
+    height: 500px;
+    overflow: hidden;
+    width: 900px;
+    margin: auto;
+
+    /* this fixes the overflow:hidden in Chrome/Opera */
+    -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+}
+
 .chart{
-  border-radius: "30px"
+  margin:auto
 }
