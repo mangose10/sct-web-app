@@ -45,7 +45,7 @@ const Canvas = props => {
     ctx.fillStyle = "#333";
     ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height); 
     //console.log(props.margin)
-    if (Object.keys(props.margin).length < 2){
+    if (Object.keys(props.margin).length < 2 || Object.keys(props.margin).length > 4){
       
     }else{
       ctx.beginPath();

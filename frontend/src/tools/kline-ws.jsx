@@ -20,6 +20,17 @@ class KlineWs extends Component {
     //console.log(temp)
     this.setState({margin: JSON.parse(temp)});
   }
+
+  getBalance = () => {
+    let temp = this.state.margin
+    if (Object.keys(temp).length < 2){
+      return 0;
+    }else if (Object.keys(temp).length > 4){
+      return temp.sell.price * temp.BTCbought;
+    }else if (Object.keys(this.state.curObj).length){
+      return this.state.curObj.c * temp.BTCbought;
+    }
+  }
   
   // single websocket instance for the own application and constantly trying to reconnect.
 
@@ -132,8 +143,11 @@ class KlineWs extends Component {
 
   render() {
       return (
-        <div class="chartContainer">
-            <Canvas width="900" height="500" data={this.state.histData} cur={this.state.curObj} margin={this.state.margin} class="chart"/>
+        <div>
+          <div class="chartContainer">
+              <Canvas width="900" height="500" data={this.state.histData} cur={this.state.curObj} margin={this.state.margin} class="chart"/>
+          </div>
+          <p>Balance: {"\n"+this.getBalance()}</p>
         </div>
       );
   }
