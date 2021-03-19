@@ -1,5 +1,4 @@
-import pymongo, dns, sys, warnings
-warnings.filterwarnings('ignore')
+import pymongo, dns, sys
 
 mongoc = pymongo.MongoClient("mongodb://leo:Melmmldm1%21@10.0.0.207:27017/?authSource=admin&readPreference=secondary&ssl=false")
 
