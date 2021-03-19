@@ -1,6 +1,6 @@
 import pymongo, dns, sys
 
-mongoc = pymongo.MongoClient("mongodb://leo:Melmmldm1%21@10.0.0.207:27017/?authSource=admin&readPreference=secondary&ssl=false")
+mongoc = pymongo.MongoClient("mongodb://leo:Melmmldm1%21@174.48.53.242:27017/?authSource=admin&readPreference=secondary&ssl=false")
 
 start = int(sys.argv[1])
 end = start + (1000 * 60 * 60 * 24)
