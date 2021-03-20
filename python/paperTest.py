@@ -15,8 +15,14 @@ def on_close(ws):
 
 def on_message(ws, message):
   #pp.pprint(type(message))
-  tots = trend.algoWrapper(message)
+  tots = trend.algoWrapper(message, 1)
   #pp.pprint(tots)
+  
+def on_error(ws, err):
+  print(err)
+  print("Not Connected, trying to Reconnect")
 
-ws = websocket.WebSocketApp(SOCKET, on_open=on_open, on_close=on_close, on_message=on_message)
+
+websocket.setdefaulttimeout(20)
+ws = websocket.WebSocketApp(SOCKET, on_open=on_open, on_close=on_close, on_message=on_message, on_error=on_error)
 ws.run_forever()

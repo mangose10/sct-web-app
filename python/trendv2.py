@@ -27,7 +27,6 @@ def fillCandle(message):
 def candleToBBAND(data):
   
   obj = []
-  i = 0
   #print(len(data))
   for d in range(len(data)):
     c = float(data[d][4])
@@ -41,7 +40,6 @@ def candleToDX(data):
   arrc = []
   arrh = []
   arrl = []
-  i = 0
   #print(len(data))
   for d in range(len(data)):
     c = float(data[d][4])
@@ -59,13 +57,15 @@ def candleToDX(data):
 
   return obj
 
-def algoWrapper(message, outType=0):
+def algoWrapper(message, outType):
   global candles
   global mongoc
+  global myOutType
+
   message = json.loads(message)
   myOutType = outType
   if myOutType == 1:
-    mongoc = pymongo.MongoClient("mongodb+srv://crespi:Simple1234@sctdb.v1k99.mongodb.net/test")
+    mongoc = pymongo.MongoClient("mongodb://leo:Melmmldm1%21@10.0.0.207:27017/?authSource=admin&readPreference=secondary&ssl=false")
 
   if not bool(candles[2]):
     candles[2] = fillCandle(message)
@@ -104,6 +104,7 @@ def buy():
   global FEE
   global slope
   global myOutType
+  global mongoc
 
   if (bool(candles[0]) and ((candles[0]['cPrice']) > (candles[1]['cPrice'])) and ((candles[1]['cPrice'] < (candles[2]['cPrice'])))):
     print("found min")
@@ -144,28 +145,24 @@ def buy():
 
       roc = sum(numpy.delete(talib.ROC(candleToBBAND(mbData), timeperiod=10), numpy.array(range(10))))/10
 
-      #print (upper[len(upper)-1])
-      #print (hupper[len(upper)-1])
-      #print (pdi)
-      #print (mdi)
-      #print (dx)
-      #print (roc)
       print (float(candles[2]['cPrice']))
 
       if (float(candles[2]['cPrice']) < upper[len(upper)-1] and float(candles[2]['cPrice']) < hupper[len(upper)-1] and roc > 0 and dx > 0):
         
         trans['BTCbought'] = curVal/float(candles[2]['cPrice'])
-        if (myOutType):
-          client.create_test_order(
+        trans['buy'] = {'time':int(candles[2]['cTime']), 'price':float(candles[2]['cPrice'])}
+        trans['break'] = curVal * (1+FEE)
+        inTrans = True
+        if (myOutType == 1):
+          mongoc.SCT.transactions.insert_one(trans)
+          '''bought = client.create_test_order(
             symbol='BTCUSD',
             side=SIDE_BUY,
             type=ORDER_TYPE_MARKET,
             quantity=trans['BTCbought']
           )
+          print(bought)'''
 
-        trans['buy'] = {'time':int(candles[2]['cTime']), 'price':float(candles[2]['cPrice'])}
-        trans['break'] = curVal * (1+FEE)
-        inTrans = True
         print("BOUGHT")
       
 
@@ -187,6 +184,7 @@ def sell():
   global slope
   global longestTrade
   global numTrans
+  global mongoc
 
   if (bool(candles[0]) and ((candles[0]['cPrice']) < (candles[1]['cPrice'])) and ((candles[1]['cPrice'] > (candles[2]['cPrice'])))):
     print("found max")
@@ -210,14 +208,15 @@ def sell():
       curVal = (curVal * (1+trans['change']['percent']))
       numTrans += 1
       if myOutType == 1:
-        sold = client.create_test_order(
+        latest = mongoc.SCT.transactions.find_one({}, sort=[('_id', pymongo.DESCENDING)])
+        mongoc.SCT.transactions.replace_one(latest, trans)
+        '''sold = client.create_test_order(
           symbol='BTCUSD',
           side=SIDE_SELL,
           type=ORDER_TYPE_MARKET,
           quantity=trans['BTCbought']
         )
-        print(sold)
-        mongoc.SCT.transactions.insert_one(trans)
+        print(sold)'''
       if myOutType == 0:
         log = open("trans.json", "a")
         log.write(json.dumps(trans, indent=2)+",\n")
