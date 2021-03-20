@@ -53,7 +53,7 @@ class KlineWs extends Component {
    * This function establishes the connect with the websocket and also ensures constant reconnection if connection closes
    */
   connect = () => {
-      var ws = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_"+this.props.interval);
+      var ws = new WebSocket("wss://stream.binance.us:9443/ws/btcusd@kline_"+this.props.interval);
       let that = this; // cache the this
       var connectInterval;
 
@@ -85,6 +85,7 @@ class KlineWs extends Component {
         
         this.getMLines();
 
+        //console.log("here")
         //console.log(this.props.data)
         if (!Object.keys(this.state.histData).length && (this.props.data.length > 1)){
             
