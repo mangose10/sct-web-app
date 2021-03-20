@@ -11,7 +11,7 @@ candles = json.loads(candf.readline())
 tots = {}
 
 for i in range(1, len(candles)-1):
-  tots = trend.algoWrapper(json.dumps(candles[i]))
+  tots = trend.algoWrapper(json.dumps(candles[i]), 0)
 
 log = open("trans.json", "a")
 log.write(json.dumps(tots, indent=2)+"\n]\n}")
