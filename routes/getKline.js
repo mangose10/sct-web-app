@@ -19,7 +19,7 @@ router.post('/', function(req, res, next) {
   python.on('close', (code) => {
     console.log(`child process close all stdio with code ${code}`);
     // send data to browser
-    //console.log(JSON.parse(dataToSend)['klinedata'].slice(100))
+    console.log("got dat" + dataToSend)
     res.send(dataToSend)
   });
   
